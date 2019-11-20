@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/threader" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
