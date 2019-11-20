@@ -202,7 +202,9 @@ class LabelingTest:
                 shape_file,
             )
             color = PyQt5.QtGui.QColor(255, 0, 0)
+            # changing the renderer works !
             layer.renderer().symbol().setColor(color)
+            # But here it crashes
             layer.labeling().settings().format().background().setFillColor(color)
             self.registry.addMapLayer(layer, False)
             self.iface.layerTreeView().refreshLayerSymbology(layer.id())
