@@ -201,10 +201,33 @@ class LabelingTest:
                 0,
                 shape_file,
             )
+            print(f"layer.labelsEnabled() = {layer.labelsEnabled()}")
             color = PyQt5.QtGui.QColor(255, 0, 0)
             # changing the renderer works !
             layer.renderer().symbol().setColor(color)
             # But here it crashes
-            layer.labeling().settings().format().background().setFillColor(color)
+            # old: layer.labeling().settings().format().background().setFillColor(color)
+
+            # alternative approach
+            labeling = layer.labeling().clone()
+
+            # crashes in 18.04 crashes in 19.04
+            # labeling.settings().format().background().setFillColor(color)  
+
+            # crashes in 18.04 crashes in 19.04
+            # b = labeling.settings().format().background()
+            # b.setFillColor(color)
+            
+            # works in 18.04 crashes in 19.04
+            # settings = labeling.settings()
+            # settings.format().background().setFillColor(color) 
+
+            # works in 18.04 works in 19.04
+            settings = labeling.settings()
+            my_format = settings.format()
+            my_background = my_format.background()
+            my_background.setFillColor(color)
+            
+            layer.setLabeling(labeling)
             self.registry.addMapLayer(layer, False)
             self.iface.layerTreeView().refreshLayerSymbology(layer.id())
